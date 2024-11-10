@@ -16,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
     })
 });
 
+// using middleware to check if the route doesn't exists
 app.use(notFound)
 
 export default app;
