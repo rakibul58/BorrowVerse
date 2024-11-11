@@ -30,8 +30,48 @@ const getMemberByIdFromDB = async (memberId: string) => {
   return result;
 };
 
+const updateMemberByIdInDB = async (
+  memberId: string,
+  payload: Partial<Member>
+) => {
+  const isMemberExists = await prisma.member.findUnique({
+    where: {
+      memberId,
+    },
+  });
+  if (!isMemberExists) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Invalid member ID");
+  }
+
+  const result = await prisma.member.update({
+    where: { memberId },
+    data: payload,
+  });
+
+  return result;
+};
+
+const deleteMemberByIdInDB = async (memberId: string) => {
+  const isMemberExists = await prisma.member.findUnique({
+    where: {
+      memberId,
+    },
+  });
+  if (!isMemberExists) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Invalid member ID");
+  }
+
+  const result = await prisma.member.delete({
+    where: { memberId },
+  });
+
+  return result;
+};
+
 export const MemberServices = {
   createMemberIntoDB,
   getAllMembersFromDB,
-  getMemberByIdFromDB
+  getMemberByIdFromDB,
+  updateMemberByIdInDB,
+  deleteMemberByIdInDB,
 };

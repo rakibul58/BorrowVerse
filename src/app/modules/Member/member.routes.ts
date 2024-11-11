@@ -7,6 +7,10 @@ router
   .get(MemberControllers.getAllMembers)
   .post(MemberControllers.createMember);
 
-router.route("/:memberId").get(MemberControllers.getMemberByMemberId);
+router
+  .route("/:memberId")
+  .get(MemberControllers.getMemberByMemberId)
+  .put(MemberControllers.updateMemberById)
+  .delete(MemberControllers.deleteMemberById);
 
 export const MemberRoutes = router;
