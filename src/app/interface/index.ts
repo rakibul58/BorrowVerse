@@ -3,3 +3,8 @@ interface IGenericErrorResponse {
   message: string;
   success: boolean;
 }
+
+interface IBorrowPayload {
+  bookId: string;
+  memberId: string;
+}
