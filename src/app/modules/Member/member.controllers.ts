@@ -14,6 +14,28 @@ const createMember = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllMembers = catchAsync(async (req: Request, res: Response) => {
+  const result = await MemberServices.getAllMembersFromDB();
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Members retrieved successfully",
+    data: result,
+  });
+});
+
+const getMemberByMemberId = catchAsync(async (req: Request, res: Response) => {
+  const result = await MemberServices.getMemberByIdFromDB(req.params.memberId);
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Member retrieved successfully",
+    data: result,
+  });
+});
+
 export const MemberControllers = {
   createMember,
+  getAllMembers,
+  getMemberByMemberId,
 };

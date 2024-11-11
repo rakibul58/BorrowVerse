@@ -4,6 +4,9 @@ const router = Router();
 
 router
   .route("/")
-  .post(MemberControllers.createMember)
+  .get(MemberControllers.getAllMembers)
+  .post(MemberControllers.createMember);
+
+router.route("/:memberId").get(MemberControllers.getMemberByMemberId);
 
 export const MemberRoutes = router;
