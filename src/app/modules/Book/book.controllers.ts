@@ -14,6 +14,28 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllBooks = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.getAllBooksFromDB();
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Books retrieved successfully",
+    data: result,
+  });
+});
+
+const getBookByBookId = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.getBookByBookId(req.params.id);
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Book retrieved successfully",
+    data: result,
+  });
+});
+
 export const BookControllers = {
   createBook,
+  getAllBooks,
+  getBookByBookId,
 };
