@@ -8,6 +8,10 @@ router
   .get(BookControllers.getAllBooks)
   .post(BookControllers.createBook);
 
-router.route("/:id").get(BookControllers.getBookByBookId);
+router
+  .route("/:bookId")
+  .get(BookControllers.getBookByBookId)
+  .put(BookControllers.updateBookById)
+  .delete(BookControllers.deleteBookById);
 
 export const BookRoutes = router;

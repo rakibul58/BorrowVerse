@@ -16,16 +16,51 @@ const getAllBooksFromDB = async () => {
   return result;
 };
 
-const getBookByBookId = async (bookId: string) => {
+const getBookByBookIdFromDB = async (bookId: string) => {
   const result = await prisma.book.findUnique({
     where: {
       bookId,
     },
   });
 
-  if(!result){
-    throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID")
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID");
   }
+
+  return result;
+};
+
+const updateBookByIdInDB = async (bookId: string, payload: Partial<Book>) => {
+  const isBookExists = await prisma.book.findUnique({
+    where: {
+      bookId,
+    },
+  });
+  if (!isBookExists) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID");
+  }
+
+  const result = await prisma.book.update({
+    where: { bookId },
+    data: payload,
+  });
+
+  return result;
+};
+
+const deleteBookByIdInDB = async (bookId: string) => {
+  const isBookExists = await prisma.book.findUnique({
+    where: {
+      bookId,
+    },
+  });
+  if (!isBookExists) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID");
+  }
+
+  const result = await prisma.book.delete({
+    where: { bookId },
+  });
 
   return result;
 };
@@ -33,5 +68,7 @@ const getBookByBookId = async (bookId: string) => {
 export const BookServices = {
   createBookIntoDB,
   getAllBooksFromDB,
-  getBookByBookId
+  getBookByBookIdFromDB,
+  updateBookByIdInDB,
+  deleteBookByIdInDB
 };

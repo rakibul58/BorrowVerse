@@ -25,7 +25,7 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBookByBookId = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookServices.getBookByBookId(req.params.id);
+  const result = await BookServices.getBookByBookIdFromDB(req.params.bookId);
   sendResponse(res, {
     success: true,
     status: StatusCodes.OK,
@@ -34,8 +34,32 @@ const getBookByBookId = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateBookById = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.updateBookByIdInDB(
+    req.params.bookId,
+    req.body
+  );
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Book updated successfully",
+    data: result,
+  });
+});
+
+const deleteBookById = catchAsync(async (req: Request, res: Response) => {
+  await BookServices.deleteBookByIdInDB(req.params.bookId);
+  sendResponse(res, {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Book successfully deleted",
+  });
+});
+
 export const BookControllers = {
   createBook,
   getAllBooks,
   getBookByBookId,
+  updateBookById,
+  deleteBookById,
 };
