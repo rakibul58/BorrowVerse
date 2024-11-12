@@ -4,6 +4,7 @@ import { BookServices } from "./book.services";
 import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 
+// Book controllers
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const result = await BookServices.createBookIntoDB(req.body);
   sendResponse(res, {

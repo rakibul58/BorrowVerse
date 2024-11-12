@@ -2,7 +2,7 @@ import { Router } from "express";
 import { BookControllers } from "./book.controllers";
 
 const router = Router();
-
+// book routes
 router
   .route("/")
   .get(BookControllers.getAllBooks)

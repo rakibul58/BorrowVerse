@@ -15,6 +15,7 @@ type TResponse<T> = {
   data?: T;
 };
 
+// utility function to handle response
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
   res.status(data?.status).json({
     success: data?.success,

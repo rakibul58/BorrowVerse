@@ -1,6 +1,6 @@
 class AppError extends Error {
   public status: number;
-
+  // using Error class and creating custom throw error class
   constructor(status: number, message: string, stack = "") {
     super(message);
     this.status = status;

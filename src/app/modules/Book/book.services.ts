@@ -10,6 +10,7 @@ const createBookIntoDB = async (payload: Book) => {
 
 const getAllBooksFromDB = async () => {
   const result = await prisma.book.findMany();
+  // checking if any book exists
   if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, "No Books Found");
   }
@@ -23,6 +24,7 @@ const getBookByBookIdFromDB = async (bookId: string) => {
     },
   });
 
+  // checking if book exists for given Id
   if (!result) {
     throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID");
   }

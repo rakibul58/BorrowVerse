@@ -21,14 +21,17 @@ const borrowBooksFromDB = async (payload: IBorrowPayload) => {
     },
   });
 
+  // checking if the book exists
   if (!isBookExists) {
     throw new AppError(StatusCodes.NOT_FOUND, "Invalid book ID");
   }
 
+  // checking if the book is available
   if (isBookExists.availableCopies <= 0) {
     throw new AppError(StatusCodes.NOT_FOUND, "No available copies");
   }
 
+  // running transaction as multiple query write operations happening
   const result = await prisma.$transaction(async (transactionClient) => {
     const currentDate = new Date();
     const borrowRecordData = { ...payload, borrowDate: currentDate };
@@ -36,6 +39,7 @@ const borrowBooksFromDB = async (payload: IBorrowPayload) => {
       data: borrowRecordData,
     });
 
+    // decrementing available copies as book is borrowed
     await transactionClient.book.update({
       where: {
         bookId: isBookExists.bookId,
@@ -58,6 +62,7 @@ const getOverdueBooksFromDB = async (): Promise<IOverdueResponse[] | []> => {
   const borrowedDateOfFourteenDaysAgo = new Date(currentDate);
   borrowedDateOfFourteenDaysAgo.setDate(currentDate.getDate() - 14);
 
+  // running the raw query to get the data in expected format and without looping through whole data
   const result: IOverdueResponse[] = await prisma.$queryRaw`
   SELECT 
   borrow."borrowId",

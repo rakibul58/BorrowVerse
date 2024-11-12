@@ -18,13 +18,16 @@ const globalErrorHandler: ErrorRequestHandler = (
   let message = "Something went wrong!";
 
   if (err?.code === 11000) {
+    // handling duplicate error
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.status;
     message = simplifiedError?.message;
   } else if (err instanceof AppError) {
+    // handling if instance of appError custom error class
     statusCode = err?.status;
     message = err.message;
   } else if (err instanceof Error) {
+    // handling for normal error
     message = err.message;
   }
 

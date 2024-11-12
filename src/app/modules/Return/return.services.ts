@@ -19,6 +19,7 @@ const returnBookInDB = async (borrowId: string) => {
     throw new AppError(StatusCodes.BAD_REQUEST, "Book Is Already Returned");
   }
 
+  // running transaction as multiple write operation is happening
   const result = await prisma.$transaction(async (transactionClient) => {
     const currentDate = new Date();
     const updateBorrowRecord = await transactionClient.borrowRecord.update({
@@ -28,6 +29,7 @@ const returnBookInDB = async (borrowId: string) => {
       },
     });
 
+    // updating available copies because book is returned
     await transactionClient.book.update({
       where: {
         bookId: updateBorrowRecord.bookId,
