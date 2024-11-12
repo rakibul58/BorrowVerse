@@ -53,6 +53,29 @@ const borrowBooksFromDB = async (payload: IBorrowPayload) => {
   return result;
 };
 
+const getOverdueBooksFromDB = async (): Promise<IOverdueResponse[] | []> => {
+  const currentDate = new Date();
+  const borrowedDateOfFourteenDaysAgo = new Date(currentDate);
+  borrowedDateOfFourteenDaysAgo.setDate(currentDate.getDate() - 14);
+
+  const result: IOverdueResponse[] = await prisma.$queryRaw`
+  SELECT 
+  borrow."borrowId",
+  books."title" AS "bookTitle",
+  members."name" AS "borrowerName",
+    GREATEST(DATE_PART('day', NOW() - borrow."borrowDate") - 14, 0) AS "overdueDays"
+  FROM "borrow" 
+  JOIN "books"  ON borrow."bookId" = books."bookId"
+  JOIN "members" ON borrow."memberId" = members."memberId"
+  WHERE 
+  borrow."returnDate" IS NULL 
+    AND borrow."borrowDate" < NOW() - INTERVAL '14 days';
+`;
+
+  return result;
+};
+
 export const BorrowServices = {
   borrowBooksFromDB,
+  getOverdueBooksFromDB,
 };
