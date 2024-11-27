@@ -46,7 +46,7 @@ Open command prompt(`cmd`) in folder where you want to add the project.
 Run the following command to clone the repository:
 
 ```bash
-git clone https://github.com/rakibul58/library-management-system-server-prisma.git
+git clone https://github.com/rakibul58/BorrowVerse.git
 ```
 
 ### Step 3
@@ -54,7 +54,7 @@ git clone https://github.com/rakibul58/library-management-system-server-prisma.g
 Open the cloned folder or run the following in cmd:
 
 ```bash
-cd library-management-system-server-prisma
+cd BorrowVerse
 ```
 
 ### Step 4
